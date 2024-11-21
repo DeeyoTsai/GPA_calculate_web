@@ -1,0 +1,187 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-style: normal;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+.btn {
+  padding: 0.5rem 0.75rem;
+  border: none;
+  margin: 1rem 0.5rem;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+body {
+  background-color: #272727;
+  color: white;
+  font-family: "Baloo 2", cursive;
+
+  section.animation-wrapper {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+
+    section.animation {
+      margin-top: 10vh;
+      height: 80vh;
+      //   border: 5px solid red;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .hero {
+        width: 100%;
+        // border: 5px solid green;
+        height: 0;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+
+    .slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, rgb(144, 144, 144), black);
+      z-index: -1;
+    }
+  }
+  header {
+    nav {
+      box-shadow: 0 8px 6px -6px black;
+      ul {
+        display: flex;
+        li {
+          padding: 1rem;
+          a {
+            font-size: 1.15rem;
+            transition: all 0.3s ease;
+            &:hover {
+              color: yellow;
+            }
+          }
+        }
+      }
+    }
+  }
+  main {
+    section.main-part {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+      h1 {
+        font-size: 3rem;
+      }
+
+      p {
+        font-size: 1.15rem;
+      }
+
+      div.all-inputs {
+        form {
+          input,
+          select {
+            font-size: 1.05rem;
+            padding: 0.5rem;
+            border: 0.25px solid rgb(39, 39, 25);
+            border-radius: 0.35rem;
+            margin: 0.35rem;
+          }
+          input.class-number {
+            width: 22%;
+          }
+
+          input.class-credit {
+            width: 13%;
+          }
+          button {
+            border: none;
+            cursor: pointer;
+            background-color: #272727;
+            i {
+              font-size: 1.25rem;
+              color: white;
+              // 預計會在 <button> 附加 click 的 event listener
+              // 所以設定 pointer-events: none 可以直接確保使用者無法點擊到 <i> 標籤
+              pointer-events: none;
+            }
+          }
+        }
+      }
+
+      button.plus-btn {
+        background-color: #272727;
+        cursor: pointer;
+        border: none;
+        width: 2.5rem;
+        margin: 3rem 0rem;
+        i {
+          font-size: 2.5rem;
+          color: white;
+          pointer-events: none;
+        }
+      }
+
+      div.result {
+        // background-color: blue;
+        width: 200px;
+        height: 200px;
+        border: 3px solid red;
+        border-radius: 50%;
+        text-align: center;
+        // align-content: center;
+        animation-name: borderColor;
+        animation-duration: 8s;
+        animation-iteration-count: infinite;
+        p {
+          margin-top: 20px;
+        }
+        h2#result-gpa {
+          font-size: 3.5rem;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
+@keyframes borderColor {
+  0% {
+    border-color: red;
+  }
+  33% {
+    border-color: limegreen;
+  }
+  66% {
+    border-color: yellow;
+  }
+}
