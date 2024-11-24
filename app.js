@@ -58,6 +58,14 @@ allSelects.forEach((select) => {
   });
 });
 
+// 改變credit後，更新GPA
+let credits = document.querySelectorAll(".class-credit");
+credits.forEach((credit) => {
+  credit.addEventListener("change", () => {
+    setGPA();
+  });
+});
+
 function changeColor(target) {
   if (target.value == "A" || target.value == "A-") {
     target.style.backgroundColor = "lightgreen";
@@ -92,4 +100,63 @@ function changeColor(target) {
   }
 }
 
-function setGPA() {}
+function convert(target) {
+  switch (target) {
+    case "A":
+      return 4;
+    case "A-":
+      return 3.7;
+    case "B+":
+      return 3.4;
+    case "B":
+      return 3.0;
+    case "B-":
+      return 2.7;
+    case "C+":
+      return 2.4;
+    case "C":
+      return 2.0;
+    case "C-":
+      return 1.7;
+    case "D+":
+      return 1.4;
+    case "D":
+      return 1.0;
+    case "D-":
+      return 0.7;
+    case "F":
+      return 0.0;
+    default:
+      return 0.0;
+  }
+}
+
+function setGPA() {
+  let formlength = document.querySelectorAll("form").length;
+  let credits = document.querySelectorAll(".class-credit");
+  let grades = document.querySelectorAll("select");
+  let credit_sum = 0;
+  let sum = 0;
+  // credit sum
+  for (let i = 0; i < formlength; i++) {
+    if (!isNaN(credits[i].valueAsNumber)) {
+      credit_sum += credits[i].valueAsNumber;
+    }
+  }
+
+  // each credit x grade
+  for (let i = 0; i < formlength; i++) {
+    if (!isNaN(credits[i].valueAsNumber)) {
+      sum += credits[i].valueAsNumber * convert(grades[i].value);
+    }
+  }
+  // calculate GPA
+  let result;
+
+  if (credit_sum == 0) {
+    result = (0.0).toFixed(2);
+  } else {
+    result = (sum / credit_sum).toFixed(2);
+  }
+  document.querySelector("#result-gpa").innerText = result;
+}
