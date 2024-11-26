@@ -139,12 +139,9 @@ body main section.main-part div.result {
   border: 3px solid red;
   border-radius: 50%;
   text-align: center;
-  -webkit-animation-name: borderColor;
-          animation-name: borderColor;
-  -webkit-animation-duration: 8s;
-          animation-duration: 8s;
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
+  animation-name: borderColor;
+  animation-duration: 8s;
+  animation-iteration-count: infinite;
 }
 body main section.main-part div.result p {
   margin-top: 20px;
@@ -154,13 +151,9 @@ body main section.main-part div.result h2#result-gpa {
   font-weight: bold;
 }
 
-@-webkit-keyframes scaleUp {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
-  }
+.remove {
+  transform: scale(0);
+  transition: all 0.5s ease;
 }
 
 @keyframes scaleUp {
@@ -171,31 +164,12 @@ body main section.main-part div.result h2#result-gpa {
     transform: scale(1);
   }
 }
-@-webkit-keyframes scaleDown {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(0);
-  }
-}
 @keyframes scaleDown {
   from {
     transform: scale(1);
   }
   to {
     transform: scale(0);
-  }
-}
-@-webkit-keyframes borderColor {
-  0% {
-    border-color: red;
-  }
-  33% {
-    border-color: limegreen;
-  }
-  66% {
-    border-color: yellow;
   }
 }
 @keyframes borderColor {

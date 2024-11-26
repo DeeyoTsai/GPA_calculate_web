@@ -285,3 +285,19 @@ add_new_form.addEventListener("click", () => {
   allInputs.appendChild(newForm);
   newForm.style.animation = "scaleUp 0.5s ease forwards";
 });
+
+// 為原本預設的form也新增trash btn功能
+let all_trash = document.querySelectorAll(".trash-button");
+all_trash.forEach((trash) => {
+  trash.addEventListener("click", (e) => {
+    e.target.parentElement.parentElement.classList.add("remove");
+  });
+});
+
+all_trash.forEach((trash) => {
+  let form = trash.parentElement.parentElement;
+  form.addEventListener("transitionend", (e) => {
+    e.target.remove();
+    setGPA();
+  });
+});
