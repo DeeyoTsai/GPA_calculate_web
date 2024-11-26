@@ -160,3 +160,128 @@ function setGPA() {
   }
   document.querySelector("#result-gpa").innerText = result;
 }
+
+// plus-btn add new form
+let allInputs = document.querySelector(".all-inputs");
+let add_new_form = document.querySelector(".plus-btn");
+// plus-btn新增點擊事件
+add_new_form.addEventListener("click", () => {
+  let newForm = document.createElement("form");
+  let newDiv = document.createElement("div");
+  newDiv.classList.add("grader");
+  //加入5項inputs元素
+  //creat class-type element and set attribute
+  let newInput1 = document.createElement("input");
+  newInput1.setAttribute("type", "text");
+  newInput1.setAttribute("placeholder", "class category");
+  newInput1.classList.add("class-type");
+  newInput1.setAttribute("list", "opt");
+  //create class-number and set attribute
+  let newInput2 = document.createElement("input");
+  newInput2.setAttribute("type", "text");
+  newInput2.setAttribute("placeholder", "class number");
+  newInput2.classList.add("class-number");
+  //create credits input and set attribute
+  let newInput3 = document.createElement("input");
+  newInput3.setAttribute("type", "number");
+  newInput3.setAttribute("placeholder", "credits");
+  newInput3.classList.add("class-credit");
+  newInput3.setAttribute("min", "0");
+  newInput3.setAttribute("max", "6");
+
+  newInput3.addEventListener("change", () => {
+    setGPA();
+  });
+
+  //create select options and it's attribute
+  let newSelect = document.createElement("select");
+  newSelect.setAttribute("name", "select");
+  newSelect.setAttribute("class", "select");
+  let opt_blank = document.createElement("option");
+  opt_blank.setAttribute("value", "");
+  opt_blank.text = "";
+  let opt_A = document.createElement("option");
+  opt_A.setAttribute("value", "A");
+  opt_A.text = "A";
+  let opt_Aminus = document.createElement("option");
+  opt_Aminus.setAttribute("value", "A-");
+  opt_Aminus.text = "A-";
+  let opt_Bplus = document.createElement("option");
+  opt_Bplus.setAttribute("value", "B+");
+  opt_Bplus.text = "B+";
+  let opt_B = document.createElement("option");
+  opt_B.setAttribute("value", "B");
+  opt_B.text = "B";
+  let opt_Bminus = document.createElement("option");
+  opt_Bminus.setAttribute("value", "B-");
+  opt_Bminus.text = "B-";
+  let opt_Cplus = document.createElement("option");
+  opt_Cplus.setAttribute("value", "C+");
+  opt_Cplus.text = "C+";
+  let opt_C = document.createElement("option");
+  opt_C.setAttribute("value", "C");
+  opt_C.text = "C";
+  let opt_Cminus = document.createElement("option");
+  opt_Cminus.setAttribute("value", "C-");
+  opt_Cminus.text = "C-";
+  let opt_Dplus = document.createElement("option");
+  opt_Dplus.setAttribute("value", "D+");
+  opt_Dplus.text = "D+";
+  let opt_D = document.createElement("option");
+  opt_D.setAttribute("value", "D");
+  opt_D.text = "D";
+  let opt_Dminus = document.createElement("option");
+  opt_Dminus.setAttribute("value", "D-");
+  opt_Dminus.text = "D-";
+  let opt_F = document.createElement("option");
+  opt_F.setAttribute("value", "F");
+  opt_F.text = "F";
+
+  newSelect.appendChild(opt_blank);
+  newSelect.appendChild(opt_A);
+  newSelect.appendChild(opt_Aminus);
+  newSelect.appendChild(opt_Bplus);
+  newSelect.appendChild(opt_B);
+  newSelect.appendChild(opt_Bminus);
+  newSelect.appendChild(opt_Cplus);
+  newSelect.appendChild(opt_Dplus);
+  newSelect.appendChild(opt_D);
+  newSelect.appendChild(opt_Dminus);
+  newSelect.appendChild(opt_F);
+
+  newSelect.addEventListener("change", (e) => {
+    setGPA();
+    changeColor(e.target);
+  });
+
+  //create trash button
+  let newButton = document.createElement("button");
+  newButton.classList.add("trash-button");
+  let newItag = document.createElement("i");
+  newItag.classList.add("fas");
+  newItag.classList.add("fa-trash");
+  newButton.appendChild(newItag);
+
+  newButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.target.parentElement.parentElement.style.animation =
+      "scaleDown 0.5s ease forwards";
+    e.target.parentElement.parentElement.addEventListener(
+      "animationend",
+      (e) => {
+        e.target.remove();
+        setGPA();
+      }
+    );
+    // e.target.parentElement.parentElement
+  });
+
+  newDiv.appendChild(newInput1);
+  newDiv.appendChild(newInput2);
+  newDiv.appendChild(newInput3);
+  newDiv.appendChild(newSelect);
+  newDiv.appendChild(newButton);
+  newForm.appendChild(newDiv);
+  allInputs.appendChild(newForm);
+  newForm.style.animation = "scaleUp 0.5s ease forwards";
+});
