@@ -301,3 +301,192 @@ all_trash.forEach((trash) => {
     setGPA();
   });
 });
+
+// 排序演算法(Merge sort)
+let descend_btn = document.querySelector(".sort-descending");
+let ascend_btn = document.querySelector(".sort-ascending");
+
+descend_btn.addEventListener("click", () => {
+  handleSort("descending");
+});
+
+ascend_btn.addEventListener("click", () => {
+  handleSort("ascending");
+});
+
+function handleSort(direction) {
+  let grades = document.querySelectorAll("div.grader");
+  let objArr = [];
+  // 取得form value
+  grades.forEach((grade) => {
+    // console.log(grade.children[0]);
+    let class_category = grade.children[0].value;
+    let class_number = grade.children[1].value;
+    let class_credits = grade.children[2].value;
+    let class_grade = grade.children[3].value;
+    // form只要有填值，就將資料填加入objArr
+    if (
+      !(
+        class_category == "" &&
+        class_number == "" &&
+        class_credits == "" &&
+        class_grade == ""
+      )
+    ) {
+      let class_obj = {
+        class_category,
+        class_number,
+        class_credits,
+        class_grade,
+      };
+      objArr.push(class_obj);
+    }
+  });
+
+  // covert class_grade covert to integer
+  if (objArr.length > 0) {
+    objArr.forEach((obj) => {
+      obj.class_grade_number = convert(obj.class_grade);
+    });
+  }
+  // console.log(objArr);
+
+  objArr = mergeSort(objArr);
+  if (direction == "descending") {
+    objArr = objArr.reverse();
+  }
+  console.log(objArr);
+  // 根據objArr內容更新網頁
+  let allInputs = document.querySelector(".all-inputs");
+  allInputs.innerHTML = "";
+
+  for (let i = 0; i < objArr.length; i++) {
+    allInputs.innerHTML += `<form>
+      <div class="grader">
+        <input
+          type="text"
+          placeholder="class category"
+          class="class-type"
+          list="opt"
+          value=${objArr[i].class_category}
+        /><!-- 
+        --><input 
+          type="text" 
+          placeholder="class number" 
+          class="class-number" 
+          value=${objArr[i].class_number}
+        /><!-- 
+        --><input 
+          type="number" 
+          placeholder="credits" 
+          min="0" 
+          max="6" 
+          class="class-credit" 
+          value=${objArr[i].class_credits}
+        /><!-- 
+        --><select name="select" class="select">
+          <option value=""></option>
+          <option value="A">A</option>
+          <option value="A-">A-</option>
+          <option value="B+">B+</option>
+          <option value="B">B</option>
+          <option value="B-">B-</option>
+          <option value="C+">C+</option>
+          <option value="C">C</option>
+          <option value="C-">C-</option>
+          <option value="D+">D+</option>
+          <option value="D">D</option>
+          <option value="D-">D-</option>
+          <option value="F">F</option>
+        </select><!-- 
+        --><button class="trash-button">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </form>`;
+  }
+
+  //select選項另外處理
+  // 1.先進行select value賦值
+  grades = document.querySelectorAll(".grader");
+  grades.forEach((grade, index) => {
+    grade.children[3].value = objArr[index].class_grade;
+  });
+  // 2.select change時變更background color與跟新GPA
+  let allSelects = document.querySelectorAll(".select");
+  for (let i = 0; i < allSelects.length; i++) {
+    // 變更排序後更新顏色
+    changeColor(allSelects[i]);
+    allSelects[i].addEventListener("change", (e) => {
+      // 為重新添加的form內容加入事件處理
+      setGPA();
+      changeColor(e.target);
+    });
+  }
+
+  // 重新排序後項目，更新credit後計算GPA
+  let allCredits = document.querySelectorAll(".class-credit");
+  allCredits.forEach((credit) => {
+    credit.addEventListener("change", () => {
+      setGPA();
+    });
+  });
+
+  // 重新排序後項目，更新trash tag event
+  let allTrash = document.querySelectorAll(".trash-button");
+  allTrash.forEach((trash) => {
+    trash.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.target.parentElement.parentElement.style.animation =
+        "scaleDown 0.5s ease forwards";
+      e.target.parentElement.parentElement.addEventListener(
+        "animationend",
+        (e) => {
+          e.target.remove();
+          setGPA();
+        }
+      );
+    });
+  });
+}
+
+// 拆分後的兩陣列，倆倆進行合併
+function merge(a1, a2) {
+  let result = [];
+  let i = 0;
+  let j = 0;
+  while (i < a1.length && j < a2.length) {
+    if (a1[i].class_grade_number > a2[j].class_grade_number) {
+      result.push(a2[j]);
+      j++;
+    } else {
+      result.push(a1[i]);
+      i++;
+    }
+  }
+  while (i < a1.length) {
+    result.push(a1[i]);
+    i++;
+  }
+  while (j < a2.length) {
+    result.push(a2[j]);
+    j++;
+  }
+  return result;
+}
+// 將陣列拆分成單元素陣列後，進行merge()
+// arr = [1, 3, 6 , 8] => [1] , [3] , [6], [8]
+function mergeSort(arr) {
+  if (arr.length == 0) {
+    return;
+  }
+
+  if (arr.length == 1) {
+    return arr;
+  } else {
+    let middle = Math.floor(arr.length / 2);
+    let left = arr.slice(0, middle);
+    let right = arr.slice(middle, arr.length);
+    return merge(mergeSort(left), mergeSort(right));
+  }
+}
